@@ -4,6 +4,14 @@
 
 MAC='/Users/samwise/Library/Android/sdk/emulator/emulator -avd Pixel_4_API_30'
 
-WIN=''
+WIN='/c/Documents and Settings/samse/AppData/Local/Android/Sdk/emulator/emulator -avd Pixel_4_API_30'
 
-$MAC
+if [ $OSTYPE == 'msys' ]; then
+    echo 'windows'
+    $WIN
+else
+    echo 'mac'
+    $MAC
+fi
+
+# $MAC
