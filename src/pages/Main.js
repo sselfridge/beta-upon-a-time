@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import React, { useState, useEffect } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 export default function Main() {
   const [addNewTask, setAddNewTask] = useState(false);
 
@@ -11,7 +11,7 @@ export default function Main() {
 
   return (
     <View style={styles.mainView}>
-      <Text>Open up App.js to start working on mein app!</Text>
+      <Text>Open up Main dot js to start working on mein app!</Text>
       <AntDesign
         style={styles.plusIcon}
         onPress={handleAddTask}
@@ -26,13 +26,13 @@ export default function Main() {
 const styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    backgroundColor: "teal",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
+    backgroundColor: 'teal',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
   },
   plusIcon: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 10,
     right: 10,
   },
