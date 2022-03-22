@@ -14,18 +14,30 @@ export default function AddNew(props) {
     setDuration(e);
   };
 
-  const [duration, setDuration] = useState('');
+  const handleChangeFrequency = (e) => {
+    console.info(e);
+  };
 
+  const [duration, setDuration] = useState('');
+  const [frequency, setFrequency] = useState(1);
   const TIME_OPTIONS = ['day', 'week', 'month'];
 
   return (
     <View style={styles.addNew}>
-      <Text>Allo</Text>
+      <Text>Do task:</Text>
       <TextInput
         autoFocus={true}
         placeholder="Task Name"
         onChangeText={handleAddTask}
       />
+      <Text>At least:</Text>
+      <TextInput
+        autoFocus={true}
+        placeholder="Number"
+        keyboardType="numeric"
+        onChangeText={handleChangeFrequency}
+      />
+      <Text>times a</Text>
       <Picker
         style={styles.picker}
         selectedValue={duration}
@@ -60,7 +72,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     // width: '100%',
-    height: 200,
+    height: '50%',
     borderColor: 'black',
     borderWidth: 1,
     width: '100%',
@@ -70,10 +82,12 @@ const styles = StyleSheet.create({
     // height: 50,
     alignContent: 'space-between',
   },
-  cancelBtn: {},
-  saveBtn: {},
+  cancelBtn: {
+    margin: 30,
+  },
+  saveBtn: { margin: 30 },
   picker: {
     // height: 40,
-    width: 100,
+    width: 125,
   },
 });
