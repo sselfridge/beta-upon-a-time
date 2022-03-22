@@ -23,16 +23,16 @@ export default function Main() {
     setAddNewTask(true);
   };
 
-  console.info(tasks.length);
-
+  const [selectedLanguage, setSelectedLanguage] = useState('');
   return (
     <View style={styles.mainView}>
       <Text>Open up to start working on das app!</Text>
-      <View style={styles.list}>
+      {/* <View style={styles.list}>
         {tasks.map((task, i) => {
           return <List key={i} task={task} />;
         })}
-      </View>
+      </View> */}
+
       {!addNewTask ? (
         <AntDesign
           style={styles.plusIcon}
@@ -64,5 +64,9 @@ const styles = StyleSheet.create({
   list: {
     width: '80%',
     height: '50%',
+  },
+  picker: {
+    width: 300,
+    height: 100,
   },
 });

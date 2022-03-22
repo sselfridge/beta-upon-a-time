@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { Picker } from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 import { StyleSheet, TextInput, Text, View, Button } from 'react-native';
 
 export default function AddNew(props) {
@@ -9,6 +9,15 @@ export default function AddNew(props) {
     console.info('save');
   };
 
+  const handleTimePick = (e, index) => {
+    console.info(e, index);
+    setDuration(e);
+  };
+
+  const [duration, setDuration] = useState('');
+
+  const TIME_OPTIONS = ['day', 'week', 'month'];
+
   return (
     <View style={styles.addNew}>
       <Text>Allo</Text>
@@ -17,6 +26,16 @@ export default function AddNew(props) {
         placeholder="Task Name"
         onChangeText={handleAddTask}
       />
+      <Picker
+        style={styles.picker}
+        selectedValue={duration}
+        propmt="Duration"
+        onValueChange={handleTimePick}
+      >
+        {TIME_OPTIONS.map((o) => (
+          <Picker.Item key={o} label={o} value={o} />
+        ))}
+      </Picker>
       <View style={styles.buttons}>
         <Button style={styles.saveBtn} title="Save" onPress={handleAddTask} />
         <Button
@@ -53,4 +72,8 @@ const styles = StyleSheet.create({
   },
   cancelBtn: {},
   saveBtn: {},
+  picker: {
+    // height: 40,
+    width: 100,
+  },
 });
