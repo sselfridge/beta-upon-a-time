@@ -1,6 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { StyleSheet, TextInput, Text, View, Button } from 'react-native';
+import {
+  StyleSheet,
+  TextInput,
+  Text,
+  View,
+  Button,
+  BackHandler,
+} from 'react-native';
 
 export default function AddNew(props) {
   const { setTasks, setAddNewTask } = props;
@@ -17,6 +24,21 @@ export default function AddNew(props) {
   const handleChangeFrequency = (e) => {
     console.info(e);
   };
+
+  const handleBackBtn = () => {
+    console.info('closing for back btn');
+    setAddNewTask(false);
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackBtn);
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackBtn);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [duration, setDuration] = useState('');
   const [frequency, setFrequency] = useState(1);
