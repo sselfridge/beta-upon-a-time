@@ -23,7 +23,6 @@ export default function Main() {
     setAddNewTask(true);
   };
 
-  const [selectedLanguage, setSelectedLanguage] = useState('');
   return (
     <View style={styles.mainView}>
       <Text>Open up to start working on das app!</Text>

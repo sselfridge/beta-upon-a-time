@@ -5,7 +5,7 @@
 MAC='/Users/samwise/Library/Android/sdk/emulator/emulator -avd Pixel_4_API_30'
 
 WIN='/c/Documents\ and\ Settings/samse/AppData/Local/Android/Sdk/emulator/emulator.exe -avd Pixel_4_API_30'
-
+WSL='/mnt/c/Documents\ and\ Settings/samse/AppData/Local/Android/Sdk/emulator/emulator.exe -avd Pixel_4a_API_30'
 if [ $OSTYPE == 'msys' ]; then
     echo 'windows'
     eval $WIN
