@@ -11,9 +11,14 @@ import {
   BackHandler,
   Pressable,
 } from 'react-native';
-import ChipGroup from './shared/ChipGroup';
 import { FontAwesome } from '@expo/vector-icons';
+
+//local components
+import ChipGroup from './shared/ChipGroup';
+import TimePicker from './shared/TimePicker';
 import Theme from '../../theme';
+
+import { getTimeString } from '../../utils/Time';
 
 const AddNew = (props) => {
   const { setTasks, setShowAddNew } = props;
@@ -32,6 +37,7 @@ const AddNew = (props) => {
   const [name, setName] = useState('');
   const [duration, setDuration] = useState(TIME_OPTIONS[1]);
   const [frequency, setFrequency] = useState(1);
+  const [time, setTime] = useState(new Date());
 
   const nameRef = useRef(null);
   const freqRef = useRef(null);
@@ -41,7 +47,7 @@ const AddNew = (props) => {
       <View>
         <Text style={styles.summary}>{`I will do ${
           name || 'task'
-        } ${frequency} times a ${duration}`}</Text>
+        } ${frequency} times a ${duration} at ${getTimeString(time)}`}</Text>
       </View>
       {/* <Text>Do task:</Text> */}
       <TextInput
@@ -71,22 +77,17 @@ const AddNew = (props) => {
         activeLabel={duration}
         setActive={setDuration}
       />
+      <TimePicker setTime={setTime} />
       <View style={styles.buttons}>
         <Button
-          style={styles.saveBtn}
-          title="Save"
-          onPress={handleAddTask}
-          color={Theme.primary}
-        />
-        <Button
-          style={styles.cancelBtn}
           title="Cancel"
           onPress={() => {
-            console.info('cancel');
             setShowAddNew(false);
           }}
           color={Theme.secondary}
         />
+        <Button title="Advanced" disabled color={Theme.gray} />
+        <Button title="Save" onPress={handleAddTask} color={Theme.primary} />
       </View>
     </View>
   );
@@ -120,9 +121,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
 
-  cancelBtn: {
-    margin: 30,
-  },
   freqText: {
     fontSize: 16,
     marginLeft: 20,
@@ -131,10 +129,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
   },
-  saveBtn: {
-    width: '40%',
-    color: Theme.primary,
-  },
+
   summary: {
     marginBottom: 50,
     fontSize: 24,
