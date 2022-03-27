@@ -3,14 +3,15 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { tasks1 } from '../models/mocklist';
+import Theme from '../theme';
 
 import AddNew from './components/AddNew';
 import List from './components/List';
 export default function Main() {
-  const [addNewTask, setAddNewTask] = useState(false);
+  const [showAddNew, setShowAddNew] = useState(true);
 
   const [tasks, setTasks] = useState(tasks1);
-
+  const [currentDuration, setCurrDur] = useState('');
   const handleAddTask = (e) => {
     // console.info('Add new');
     // setTasks((t) => {
@@ -20,9 +21,8 @@ export default function Main() {
     //   console.info(tasks.length);
     //   return ts;
     // });
-    setAddNewTask(true);
+    setShowAddNew(true);
   };
-
   return (
     <View style={styles.mainView}>
       <Text>Open up to start working on das app!</Text>
@@ -32,16 +32,16 @@ export default function Main() {
         })}
       </View> */}
 
-      {!addNewTask ? (
+      {!showAddNew ? (
         <AntDesign
           style={styles.plusIcon}
           onPress={handleAddTask}
           name="pluscircle"
           size={48}
-          color="blue"
+          color={Theme.primary}
         />
       ) : (
-        <AddNew setTasks={setTasks} setAddNewTask={setAddNewTask} />
+        <AddNew setTasks={setTasks} setShowAddNew={setShowAddNew} />
       )}
     </View>
   );
@@ -50,7 +50,7 @@ export default function Main() {
 const styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    backgroundColor: '#fafafa',
+    backgroundColor: Theme.paper,
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
@@ -67,5 +67,8 @@ const styles = StyleSheet.create({
   picker: {
     width: 300,
     height: 100,
+  },
+  row: {
+    flexDirection: 'row',
   },
 });
