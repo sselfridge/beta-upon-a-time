@@ -24,11 +24,22 @@ const AddNew = (props) => {
   const { setTasks, setShowAddNew } = props;
 
   const handleAddTask = (e) => {
-    console.info('e: ', e);
+    const newTask = {
+      id: new Date().getTime(),
+      name,
+      duration,
+      frequency,
+      time,
+    };
+    setTasks((oldTasks) => {
+      const tasks = oldTasks.slice();
+      tasks.push(newTask);
+      return tasks;
+    });
+    setShowAddNew(false);
   };
 
   useBackHandler(() => {
-    console.info('closing for back btn');
     setShowAddNew(false);
     return true;
   });
@@ -44,19 +55,22 @@ const AddNew = (props) => {
 
   return (
     <View style={styles.addNew}>
-      <View>
-        <Text style={styles.summary}>{`I will do ${
-          name || 'task'
-        } ${frequency} times a ${duration} at ${getTimeString(time)}`}</Text>
+      <View style={styles.input}>
+        <Text style={styles.summary}>{`I will do ${name || 'task'}`}</Text>
+        <Text style={styles.summary}>
+          {`${frequency} times a ${duration} at ${getTimeString(time)}`}
+        </Text>
       </View>
       {/* <Text>Do task:</Text> */}
-      <TextInput
-        ref={nameRef}
-        autoFocus={true}
-        placeholder="Task Name"
-        onChangeText={setName}
-      />
-      <View style={styles.row}>
+      <View style={styles.input}>
+        <TextInput
+          ref={nameRef}
+          autoFocus={true}
+          placeholder="Task Name"
+          onChangeText={setName}
+        />
+      </View>
+      <View style={[styles.row, styles.input]}>
         <Pressable onPress={() => setFrequency((f) => f + 1)}>
           <FontAwesome name="arrow-up" size={24} color="black" />
         </Pressable>
@@ -72,11 +86,13 @@ const AddNew = (props) => {
           <FontAwesome name="arrow-down" size={24} color="black" />
         </Pressable>
       </View>
-      <ChipGroup
-        labels={TIME_OPTIONS}
-        activeLabel={duration}
-        setActive={setDuration}
-      />
+      <View style={styles.input}>
+        <ChipGroup
+          labels={TIME_OPTIONS}
+          activeLabel={duration}
+          setActive={setDuration}
+        />
+      </View>
       <TimePicker setTime={setTime} />
       <View style={styles.buttons}>
         <Button
@@ -117,10 +133,14 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     // height: 120,
-    marginTop: 40,
+    marginTop: 30,
+    marginBottom: 30,
     justifyContent: 'space-around',
   },
-
+  input: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
   freqText: {
     fontSize: 16,
     marginLeft: 20,
@@ -131,8 +151,8 @@ const styles = StyleSheet.create({
   },
 
   summary: {
-    marginBottom: 50,
     fontSize: 24,
+    textAlign: 'center',
   },
 });
 

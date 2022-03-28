@@ -1,32 +1,32 @@
 export const tasks1 = [
   {
     id: 1,
-    title: 'Neck PT',
+    name: 'Neck PT',
     frequency: 'week',
   },
   {
     id: 2,
-    title: 'Shoulder PT',
+    name: 'Shoulder PT',
     frequency: 'week',
   },
   {
     id: 3,
-    title: 'Deep Clean Kitchen',
+    name: 'Deep Clean Kitchen',
     frequency: 'week',
   },
   {
-    id: 1,
-    title: 'Neck PT',
+    id: 4,
+    name: 'Neck PT',
     frequency: 'week',
   },
   {
-    id: 2,
-    title: 'Shoulder PT',
+    id: 5,
+    name: 'Shoulder PT',
     frequency: 'week',
   },
   {
-    id: 3,
-    title: 'Deep Clean Kitchen',
+    id: 6,
+    name: 'Deep Clean Kitchen',
     frequency: 'week',
   },
 ];
