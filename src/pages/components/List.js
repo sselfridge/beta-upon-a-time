@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 
 import Theme from '../../theme';
+import gStyles from '../../utils/gStyles';
 
 export default function ListItem(props) {
   const { task, removeTask } = props;
@@ -10,15 +11,20 @@ export default function ListItem(props) {
   const [pressed, setPressed] = useState(false);
 
   return (
-    <View style={[styles.mainView, pressed ? styles.gray : {}]}>
-      <Pressable
-        onPressIn={() => setPressed(true)}
-        onLongPress={() => removeTask(task.id)}
-        onPressOut={() => setPressed(false)}
-      >
+    <Pressable
+      style={[styles.mainView, pressed ? styles.gray : {}]}
+      onPressIn={() => setPressed(true)}
+      onLongPress={() => removeTask(task.id)}
+      onPressOut={() => setPressed(false)}
+    >
+      <View style={[gStyles.row]}>
         <Text style={styles.text}>{task.name}</Text>
-      </Pressable>
-    </View>
+        <View>
+          <Text style={styles.nextText}>Next: </Text>
+          <Text style={styles.lastText}>Last: </Text>
+        </View>
+      </View>
+    </Pressable>
   );
 }
 

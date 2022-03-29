@@ -8,8 +8,8 @@ import {
   Text,
   View,
   Button,
-  BackHandler,
   Pressable,
+  ScrollView,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -55,56 +55,58 @@ const AddNew = (props) => {
 
   return (
     <View style={styles.addNew}>
-      <View style={styles.input}>
-        <Text style={styles.summary}>{`I will do ${name || 'task'}`}</Text>
-        <Text style={styles.summary}>
-          {`${frequency} times a ${duration} at ${getTimeString(time)}`}
-        </Text>
-      </View>
-      {/* <Text>Do task:</Text> */}
-      <View style={styles.input}>
-        <TextInput
-          ref={nameRef}
-          autoFocus={true}
-          placeholder="Task Name"
-          onChangeText={setName}
-        />
-      </View>
-      <View style={[styles.row, styles.input]}>
-        <Pressable onPress={() => setFrequency((f) => f + 1)}>
-          <FontAwesome name="arrow-up" size={24} color="black" />
-        </Pressable>
-        <Text style={styles.freqText}>{frequency}</Text>
-        <Pressable
-          onPress={() =>
-            setFrequency((f) => {
-              const newF = f - 1;
-              return newF > 0 ? newF : 1;
-            })
-          }
-        >
-          <FontAwesome name="arrow-down" size={24} color="black" />
-        </Pressable>
-      </View>
-      <View style={styles.input}>
-        <ChipGroup
-          labels={TIME_OPTIONS}
-          activeLabel={duration}
-          setActive={setDuration}
-        />
-      </View>
-      <TimePicker setTime={setTime} />
-      <View style={styles.buttons}>
-        <Button
-          title="Cancel"
-          onPress={() => {
-            setShowAddNew(false);
-          }}
-          color={Theme.secondary}
-        />
-        <Button title="Advanced" disabled color={Theme.gray} />
-        <Button title="Save" onPress={handleAddTask} color={Theme.primary} />
-      </View>
+      <ScrollView contentContainerStyle={styles.addNewScroll}>
+        <View style={styles.input}>
+          <Text style={styles.summary}>{`I will do ${name || 'task'}`}</Text>
+          <Text style={styles.summary}>
+            {`${frequency} times a ${duration} at ${getTimeString(time)}`}
+          </Text>
+        </View>
+        {/* <Text>Do task:</Text> */}
+        <View style={styles.input}>
+          <TextInput
+            ref={nameRef}
+            autoFocus={true}
+            placeholder="Task Name"
+            onChangeText={setName}
+          />
+        </View>
+        <View style={[styles.row, styles.input]}>
+          <Pressable onPress={() => setFrequency((f) => f + 1)}>
+            <FontAwesome name="arrow-up" size={24} color="black" />
+          </Pressable>
+          <Text style={styles.freqText}>{frequency}</Text>
+          <Pressable
+            onPress={() =>
+              setFrequency((f) => {
+                const newF = f - 1;
+                return newF > 0 ? newF : 1;
+              })
+            }
+          >
+            <FontAwesome name="arrow-down" size={24} color="black" />
+          </Pressable>
+        </View>
+        <View style={styles.input}>
+          <ChipGroup
+            labels={TIME_OPTIONS}
+            activeLabel={duration}
+            setActive={setDuration}
+          />
+        </View>
+        <TimePicker setTime={setTime} />
+        <View style={styles.buttons}>
+          <Button
+            title="Cancel"
+            onPress={() => {
+              setShowAddNew(false);
+            }}
+            color={Theme.secondary}
+          />
+          <Button title="Advanced" disabled color={Theme.gray} />
+          <Button title="Save" onPress={handleAddTask} color={Theme.primary} />
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -120,14 +122,17 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: '#fefefe',
     position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center',
+
     // width: '100%',
     height: '70%',
     borderColor: 'black',
     borderWidth: 1,
     width: '100%',
     marginHorizontal: 16,
+  },
+  addNewScroll: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttons: {
     width: '100%',
