@@ -5,27 +5,16 @@ import Main from './src/pages/Main';
 import { useAppState } from '@react-native-community/hooks';
 
 //mock data
-import { tasks1 } from './src/models/mocklist';
+import { tasks1, completedTasks as mockComplete } from './src/models/mocklist';
+import { sortTasksByTime } from './src/utils/helperFuncs';
 
 export default function App() {
-  const [tasks, setTasks] = useState(tasks1);
-  const [completedTasks, setCompletedTasks] = useState([]);
+  const [taskList, setTaskList] = useState(tasks1);
+  const [completedTasks, setCompletedTasks] = useState(mockComplete);
+  const [tasks, setTasks] = useState([]);
 
   const currentAppState = useAppState();
   console.info('currentAppState: ', currentAppState);
-
-  const handleBackBtn = () => {
-    console.info('WE HAVE TO GO BACK APP.js!!');
-    return true;
-  };
-
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackBtn);
-
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackBtn);
-    };
-  }, []);
 
   useEffect(() => {
     const hello = tasks;
@@ -35,12 +24,22 @@ export default function App() {
     };
   }, [completedTasks, tasks]);
 
-  BackHandler.addEventListener('hardwareBackPress', function () {
-    console.info('we have to go back!!!');
-    return true;
-  });
+  useEffect(() => {
+    try {
+      sortTasksByTime(completedTasks);
+      const newTasks = [];
+      taskList.forEach((t) => {
+        const lastComplete = completedTasks.find((c) => t.id === c.id);
 
-  return <Main />;
+        newTasks.push({ ...t, lastDone: lastComplete?.time });
+      });
+      setTasks(newTasks);
+    } catch (error) {
+      console.info(error);
+    }
+  }, [taskList, completedTasks]);
+
+  return <Main tasks={tasks} />;
 }
 
 const styles = StyleSheet.create({
