@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Button } from 'react-native';
 
 import Theme from '../../theme';
 import gStyles from '../../utils/gStyles';
 
 export default function ListItem(props) {
-  const { task, removeTask } = props;
+  const { task, removeTask, isSelected } = props;
 
   const [pressed, setPressed] = useState(false);
 
   return (
-    <Pressable
-      style={[styles.mainView, pressed ? styles.gray : {}]}
-      onPressIn={() => setPressed(true)}
-      onLongPress={() => removeTask(task.id)}
-      onPressOut={() => setPressed(false)}
-    >
-      <View style={[gStyles.row]}>
+    <View styles={styles.mainView}>
+      <View style={[gStyles.row, isSelected ? styles.gray : '']}>
         <Text style={styles.text}>{task.name}</Text>
         <View>
           <Text style={styles.nextText}>Next: </Text>
           <Text style={styles.lastText}>Last: </Text>
         </View>
       </View>
-    </Pressable>
+      {isSelected && (
+        <View style={gStyles.row}>
+          <Button title="Mark done" />
+          <Button title="Mark done at..." />
+        </View>
+      )}
+    </View>
   );
 }
 

@@ -24,6 +24,11 @@ export const tasks1 = [
     name: 'Knee PT',
     frequency: 'week',
   },
+  {
+    id: 6,
+    name: 'Super long task name to make sure things do not get weird when we have something this long and its properly handled',
+    frequency: 'week',
+  },
 ];
 
 export const completedTasks = [

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Text, StyleSheet, View, Button } from 'react-native';
+import { Text, StyleSheet, View, Button, Pressable } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Theme from '../../../theme';
+import { getTimeString } from '../../../utils/Time';
 
-const TimePicker = ({ setTime }) => {
+const TimePicker = ({ setTime, viewStyle, textStyle, time }) => {
   const [date, setDate] = useState(new Date(1598051730000));
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -24,22 +25,15 @@ const TimePicker = ({ setTime }) => {
     setMode(currentMode);
   };
 
-  const showTimepicker = () => {
+  const showTimePicker = () => {
     showMode('time');
   };
 
   return (
-    <View>
-      {/* <View>
-        <Button onPress={showDatepicker} title="Show date picker!" />
-      </View> */}
-      <View>
-        <Button
-          color={Theme.primary}
-          onPress={showTimepicker}
-          title="Set time"
-        />
-      </View>
+    <View style={viewStyle}>
+      <Pressable onPress={showTimePicker}>
+        <Text style={textStyle}>{`${getTimeString(time)}`}</Text>
+      </Pressable>
       {show && (
         <DateTimePicker
           testID="dateTimePicker"

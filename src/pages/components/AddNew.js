@@ -10,6 +10,8 @@ import {
   Button,
   Pressable,
   ScrollView,
+  Modal,
+  StatusBar,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -21,7 +23,7 @@ import Theme from '../../theme';
 import { getTimeString } from '../../utils/Time';
 
 const AddNew = (props) => {
-  const { setTasks, setShowAddNew } = props;
+  const { setTasks, showAddNew, setShowAddNew } = props;
 
   const handleAddTask = (e) => {
     const newTask = {
@@ -50,64 +52,80 @@ const AddNew = (props) => {
   const [frequency, setFrequency] = useState(1);
   const [time, setTime] = useState(new Date());
 
+  const [saveDisabled, setSaveDisabled] = useState(true);
+
   const nameRef = useRef(null);
   const freqRef = useRef(null);
 
+  const handleDurationPress = () => {
+    const currIdx = TIME_OPTIONS.findIndex((v) => v === duration);
+    const newIdx = (currIdx + 1) % TIME_OPTIONS.length;
+    setDuration(TIME_OPTIONS[newIdx]);
+  };
+
+  useEffect(() => {
+    //validation
+    setSaveDisabled(!name);
+  }, [name]);
+
   return (
-    <View style={styles.addNew}>
-      <ScrollView contentContainerStyle={styles.addNewScroll}>
+    <Modal visible={showAddNew} animationType={'slide'}>
+      {/* <StatusBar /> */}
+      <View style={styles.addNew}>
         <View style={styles.input}>
-          <Text style={styles.summary}>{`I will do ${name || 'task'}`}</Text>
-          <Text style={styles.summary}>
-            {`${frequency} times a ${duration} at ${getTimeString(time)}`}
-          </Text>
+          <Text style={styles.summary}>I will do</Text>
         </View>
-        {/* <Text>Do task:</Text> */}
         <View style={styles.input}>
           <TextInput
+            style={[styles.touchable, styles.summary]}
             ref={nameRef}
             autoFocus={true}
             placeholder="Task Name"
             onChangeText={setName}
           />
         </View>
-        <View style={[styles.row, styles.input]}>
-          <Pressable onPress={() => setFrequency((f) => f + 1)}>
-            <FontAwesome name="arrow-up" size={24} color="black" />
-          </Pressable>
-          <Text style={styles.freqText}>{frequency}</Text>
+        <View style={styles.input}>
           <Pressable
-            onPress={() =>
-              setFrequency((f) => {
-                const newF = f - 1;
-                return newF > 0 ? newF : 1;
-              })
-            }
+            onPress={() => setFrequency((f) => f + 1)}
+            onLongPress={() => setFrequency(1)}
           >
-            <FontAwesome name="arrow-down" size={24} color="black" />
+            <Text style={[styles.summary, styles.touchable]}>{frequency}</Text>
+          </Pressable>
+          <Text style={styles.summary}> times a </Text>
+          <Pressable onPress={handleDurationPress}>
+            <Text
+              style={[styles.summary, styles.touchable]}
+            >{`${duration}`}</Text>
           </Pressable>
         </View>
         <View style={styles.input}>
-          <ChipGroup
-            labels={TIME_OPTIONS}
-            activeLabel={duration}
-            setActive={setDuration}
+          <Text style={styles.summary}>at around</Text>
+          <TimePicker
+            viewStyle={styles.touchable}
+            textStyle={styles.summary}
+            time={time}
+            setTime={setTime}
           />
         </View>
-        <TimePicker setTime={setTime} />
         <View style={styles.buttons}>
           <Button
             title="Cancel"
             onPress={() => {
+              console.info('Cancel Press');
               setShowAddNew(false);
             }}
             color={Theme.secondary}
           />
           <Button title="Advanced" disabled color={Theme.gray} />
-          <Button title="Save" onPress={handleAddTask} color={Theme.primary} />
+          <Button
+            title="Save"
+            onPress={handleAddTask}
+            color={Theme.primary}
+            disabled={saveDisabled}
+          />
         </View>
-      </ScrollView>
-    </View>
+      </View>
+    </Modal>
   );
 };
 
@@ -121,23 +139,16 @@ const styles = StyleSheet.create({
     flex: 1,
     bottom: 0,
     backgroundColor: '#fefefe',
-    position: 'absolute',
-
-    // width: '100%',
-    height: '70%',
     borderColor: 'black',
     borderWidth: 1,
-    width: '100%',
     marginHorizontal: 16,
-  },
-  addNewScroll: {
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
+  addNewScroll: {},
   buttons: {
     width: '100%',
     flexDirection: 'row',
-    // height: 120,
     marginTop: 30,
     marginBottom: 30,
     justifyContent: 'space-around',
@@ -145,6 +156,13 @@ const styles = StyleSheet.create({
   input: {
     marginTop: 20,
     marginBottom: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '70%',
+  },
+  touchable: {
+    backgroundColor: 'lightgray',
+    borderRadius: 10,
   },
   freqText: {
     fontSize: 16,
@@ -157,6 +175,7 @@ const styles = StyleSheet.create({
 
   summary: {
     fontSize: 24,
+    padding: 10,
     textAlign: 'center',
   },
 });
