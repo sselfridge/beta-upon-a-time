@@ -60,16 +60,38 @@ export default function Main() {
     //   onLongPress={() => removeTask(task.id)}
     //   onPressOut={() => setPressed(false)}
     // >
-
+    const isSelected = selectedItem === index;
+    const style = isSelected ? styles.selectedItem : '';
     return (
-      <Pressable onPress={() => handleListPress(index)}>
+      <Pressable style={style} onPress={() => handleListPress(index)}>
         <ListItem
           task={item}
-          removeTask={removeTask}
-          isSelected={selectedItem === index}
+          removeTask={() => removeTask(item.id)}
+          isSelected={isSelected}
         />
       </Pressable>
     );
+  };
+
+  const FlatListHeader = () => {
+    return (
+      <View
+        elevation={1}
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={styles.listHeaderView}
+      >
+        <Text
+          // eslint-disable-next-line react-native/no-inline-styles
+          style={styles.listHeaderText}
+        >
+          Upcoming Tasks
+        </Text>
+      </View>
+    );
+  };
+
+  const FlatListSep = () => {
+    return <View style={styles.separator} />;
   };
 
   return (
@@ -77,6 +99,8 @@ export default function Main() {
       <SafeAreaView style={styles.container}>
         <FlatList
           data={tasks}
+          ListHeaderComponent={FlatListHeader}
+          // ItemSeparatorComponent={FlatListSep}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           extraData={selectedItem}
@@ -115,9 +139,36 @@ const styles = StyleSheet.create({
     bottom: '5%',
     right: '8%',
   },
-  list: {
-    width: '80%',
-    height: '50%',
+  listHeaderView: {
+    height: 100,
+    width: '97%',
+    margin: 5,
+    backgroundColor: '#fff',
+    borderColor: 'black',
+    alignSelf: 'center',
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 16,
+    // },
+    // shadowOpacity: 1,
+    // shadowRadius: 7.49,
+  },
+  listHeaderText: {
+    fontSize: 40,
+    fontWeight: '800',
+    flex: 1,
+    alignSelf: 'center',
+    paddingTop: 15,
+  },
+
+  separator: {
+    height: 40,
+    backgroundColor: 'red',
+  },
+  selectedItem: {
+    marginBottom: 25,
+    backgroundColor: Theme.gray,
   },
   picker: {
     width: 300,
