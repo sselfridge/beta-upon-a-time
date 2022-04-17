@@ -7,6 +7,7 @@ import {
   FlatList,
   SafeAreaView,
   Pressable,
+  Button,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { tasks1 } from '../models/mocklist';
@@ -61,14 +62,7 @@ export default function Main() {
 
   const renderItem = (itemProps) => {
     const { index, item } = itemProps;
-    console.info('itemProps: ', itemProps);
 
-    //   <Pressable
-    //   style={[styles.mainView, pressed ? styles.gray : {}]}
-    //   onPressIn={() => setPressed(true)}
-    //   onLongPress={() => removeTask(task.id)}
-    //   onPressOut={() => setPressed(false)}
-    // >
     const isSelected = selectedItem === index;
     const style = isSelected ? styles.selectedItem : '';
     return (
@@ -106,6 +100,7 @@ export default function Main() {
   return (
     <View style={styles.mainView}>
       <SafeAreaView style={styles.container}>
+        <StatusBar style={'dark'} />
         <FlatList
           data={tasks}
           ListHeaderComponent={FlatListHeader}
@@ -123,7 +118,6 @@ export default function Main() {
         size={48}
         color={Theme.primary}
       />
-
       <AddNew
         setTasks={setTasks}
         showAddNew={showAddNew}
@@ -136,13 +130,17 @@ export default function Main() {
 const styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    backgroundColor: Theme.paper,
+    backgroundColor: Theme.secondary,
     alignItems: 'center',
     justifyContent: 'center',
-    // width: '100%',
-    marginTop: 150,
+    width: '100%',
+    height: '100%',
+    marginTop: 50,
+  },
+  container: {
     marginHorizontal: 15,
   },
+
   plusIcon: {
     position: 'absolute',
     bottom: '5%',

@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Button, StyleSheet, View } from 'react-native';
+import { Button, StyleSheet, View, Pressable } from 'react-native';
+
+//TODO eventually add progress on delete delay:
+// https://stackoverflow.com/questions/33778835/radial-wipe-with-pure-css-if-not-svg-alternative
 
 const DeleteConfirm = ({ onDelete }) => {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -24,12 +27,19 @@ const DeleteConfirm = ({ onDelete }) => {
   return (
     <View>
       {showConfirm ? (
-        <Button
-          color="red"
-          title="Confirm?"
-          disabled={disabledDel}
-          onPress={onDelete}
-        />
+        // Prevent tapping disabled confirm from propagating to parent component
+        <Pressable onPress={(e) => e.preventDefault()}>
+          <Button
+            color="red"
+            title="Confirm?"
+            disabled={disabledDel}
+            onPress={(e) => {
+              if (!disabledDel) {
+                onDelete();
+              }
+            }}
+          />
+        </Pressable>
       ) : (
         <Button
           color="red"

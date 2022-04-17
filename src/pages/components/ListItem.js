@@ -14,7 +14,7 @@ export default function ListItem(props) {
   return (
     <View styles={[styles.mainView, isSelected ? styles.selected : '']}>
       <View style={[gStyles.row]}>
-        <Text style={styles.text}>{task.name}</Text>
+        <Text style={styles.nameText}>{task.name}</Text>
         <View>
           <Text style={styles.nextText}>Next: </Text>
           <Text style={styles.lastText}>Last: </Text>
@@ -53,7 +53,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 10,
   },
-  text: {
+  nameText: {
+    maxWidth: '65%',
+    overflow: 'hidden',
     textAlign: 'left',
   },
 });
