@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
   StyleSheet,
@@ -12,14 +12,23 @@ import { AntDesign } from '@expo/vector-icons';
 import { tasks1 } from '../models/mocklist';
 import Theme from '../theme';
 
+import { TasksContext } from '../models/tasks-context';
+
 import AddNew from './components/AddNew';
 import ListItem from './components/ListItem';
+
 export default function Main() {
   const [showAddNew, setShowAddNew] = useState(false);
+
+  const TaskContxt = useContext(TasksContext);
+  console.info('TasksContext: ');
+  console.info(TaskContxt.tasks);
+  console.info('End Task Context');
 
   const [tasks, setTasks] = useState(tasks1);
   const [currentDuration, setCurrDur] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
+
   const handleAddTask = (e) => {
     setShowAddNew(true);
   };

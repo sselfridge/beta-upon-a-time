@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, BackHandler } from 'react-native';
 import Main from './src/pages/Main';
 import { useAppState } from '@react-native-community/hooks';
 
+import TasksContextProvider from './src/models/tasks-context';
+
 //mock data
 import { tasks1, completedTasks as mockComplete } from './src/models/mocklist';
 import { sortTasksByTime } from './src/utils/helperFuncs';
@@ -39,7 +41,11 @@ export default function App() {
     }
   }, [taskList, completedTasks]);
 
-  return <Main tasks={tasks} />;
+  return (
+    <TasksContextProvider>
+      <Main tasks={tasks} />
+    </TasksContextProvider>
+  );
 }
 
 const styles = StyleSheet.create({
